@@ -4,7 +4,7 @@ import { StructuredTool, ToolParams } from "@langchain/core/tools";
 import { InferInteropZodOutput } from "@langchain/core/utils/types";
 import { TavilySearchAPIWrapper, type TavilySearchResponse } from "./utils.js";
 
-export type SearchDepth = "basic" | "advanced";
+export type SearchDepth = "basic" | "advanced" | "fast" | "ultra-fast";
 export type TimeRange = "day" | "week" | "month" | "year";
 export type TopicType = "general" | "news" | "finance";
 
@@ -78,7 +78,11 @@ export type TavilySearchAPIRetrieverFields = ToolParams & {
   excludeDomains?: string[];
 
   /**
-   * The depth of the search. It can be "basic" or "advanced".
+   * The depth of the search.
+   * - "basic": Standard search (default)
+   * - "advanced": More thorough search
+   * - "fast": Optimized for low latency with high relevance (BETA, 1 API Credit)
+   * - "ultra-fast": Prioritizes latency above all else (BETA, 1 API Credit)
    *
    * @default "basic"
    */
@@ -229,7 +233,7 @@ Results will filter out all content from the specified domains.
 Default is None (no domain exclusion).`
     ),
   searchDepth: z
-    .enum(["basic", "advanced"])
+    .enum(["basic", "advanced", "fast", "ultra-fast"])
     .optional()
     .describe(
       `Controls search thoroughness and result comprehensiveness.
@@ -237,7 +241,11 @@ Default is None (no domain exclusion).`
 Use "basic" (default) for simple queries requiring quick, straightforward answers.
 
 Use "advanced" for complex queries, specialized topics, 
-rare information, or when in-depth analysis is needed.`
+rare information, or when in-depth analysis is needed.
+
+Use "fast" (BETA) for optimized low latency with high relevance.
+
+Use "ultra-fast" (BETA) when latency is the top priority.`
     ),
   includeImages: z
     .boolean()

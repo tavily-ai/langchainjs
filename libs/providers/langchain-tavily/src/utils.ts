@@ -19,10 +19,14 @@ export type TavilySearchParamsBase = {
   topic?: "general" | "news" | "finance";
   /**
    * The depth of the search.
+   * - "basic": Standard search (default)
+   * - "advanced": More thorough search
+   * - "fast": Optimized for low latency with high relevance (BETA, 1 API Credit)
+   * - "ultra-fast": Prioritizes latency above all else (BETA, 1 API Credit)
    *
    * @default "basic"
    */
-  search_depth?: "basic" | "advanced";
+  search_depth?: "basic" | "advanced" | "fast" | "ultra-fast";
 
   /**
    * The number of {@link TavilySearchResult.content} chunks to retrieve from each source.

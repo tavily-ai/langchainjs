@@ -16,7 +16,7 @@ export type TavilySearchAPIRetrieverFields = BaseRetrieverInput & {
   includeGeneratedAnswer?: boolean;
   includeRawContent?: boolean;
   includeImages?: boolean;
-  searchDepth?: "basic" | "advanced";
+  searchDepth?: "basic" | "advanced" | "fast" | "ultra-fast";
   includeDomains?: string[];
   excludeDomains?: string[];
   kwargs?: Record<string, unknown>;
