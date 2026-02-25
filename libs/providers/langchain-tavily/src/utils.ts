@@ -77,6 +77,13 @@ export type TavilySearchParamsBase = {
    * @default false
    */
   include_favicon?: boolean;
+
+  /**
+   * Whether to restrict results to those containing exact quoted phrases.
+   * When true, results will only include pages containing the exact phrase(s)
+   * inside quotes in the query.
+   */
+  exact_match?: boolean;
 } & Record<string, unknown>;
 
 export type TavilySearchParamsWithSimpleImages = TavilySearchParamsBase & {

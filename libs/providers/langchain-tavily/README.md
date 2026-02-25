@@ -50,6 +50,17 @@ const results = await tool.invoke({
 });
 
 console.log(results);
+
+// Use exactMatch to only return results containing the exact phrase(s) inside quotes
+const tool2 = new TavilySearch({
+  maxResults: 5,
+  exactMatch: true,
+});
+const exactResults = await tool2.invoke({
+  query: '"John Smith" CEO Acme Corp',
+});
+
+console.log(exactResults);
 ```
 
 ### TavilyExtract
