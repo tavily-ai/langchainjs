@@ -50,6 +50,12 @@ const results = await tool.invoke({
 });
 
 console.log(results);
+
+// Use exactMatch to only return results containing the exact phrase(s) inside quotes
+const exactResults = await tool.invoke({
+  query: '"John Smith" CEO Acme Corp',
+  exactMatch: true,
+});
 ```
 
 ### TavilyExtract

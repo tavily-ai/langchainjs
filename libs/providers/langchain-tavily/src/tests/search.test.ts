@@ -318,6 +318,45 @@ describe("TavilySearch", () => {
     });
   });
 
+  test("passes exactMatch parameter to API wrapper", async () => {
+    const mockResult: TavilySearchResponse = {
+      query: '"John Smith" CEO',
+      results: [
+        {
+          title: "Test Result",
+          url: "https://example.com",
+          content: "John Smith is CEO",
+          score: 0.95,
+          raw_content: null,
+        },
+      ],
+      response_time: 0.5,
+    };
+
+    const mockWrapper = new TestTavilySearchAPIWrapper();
+    mockWrapper.rawResults = vi
+      .fn()
+      .mockImplementation(() =>
+        Promise.resolve(mockResult)
+      ) as typeof mockWrapper.rawResults;
+
+    const tool = new TavilySearch({
+      apiWrapper: mockWrapper,
+      exactMatch: true,
+    });
+
+    await tool.invoke({
+      query: '"John Smith" CEO',
+    });
+
+    expect(mockWrapper.rawResults).toHaveBeenCalledWith(
+      expect.objectContaining({
+        query: '"John Smith" CEO',
+        exactMatch: true,
+      })
+    );
+  });
+
   test("converts camelCase parameters to snake_case in API requests", async () => {
     // Mock fetch to intercept the actual API request
     const originalFetch = global.fetch;
@@ -345,6 +384,7 @@ describe("TavilySearch", () => {
         searchDepth: "advanced",
         includeImages: true,
         timeRange: "week",
+        exactMatch: true,
       });
 
       // Verify the parameters in the request body
@@ -360,12 +400,14 @@ describe("TavilySearch", () => {
       expect(requestBody.search_depth).toBe("advanced");
       expect(requestBody.include_images).toBe(true);
       expect(requestBody.time_range).toBe("week");
+      expect(requestBody.exact_match).toBe(true);
 
       // Original camelCase keys should not be present
       expect(requestBody.includeDomains).toBeUndefined();
       expect(requestBody.searchDepth).toBeUndefined();
       expect(requestBody.includeImages).toBeUndefined();
       expect(requestBody.timeRange).toBeUndefined();
+      expect(requestBody.exactMatch).toBeUndefined();
     } finally {
       // Restore original fetch
       global.fetch = originalFetch;
