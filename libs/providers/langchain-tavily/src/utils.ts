@@ -83,6 +83,11 @@ export type TavilySearchParamsBase = {
    * @default false
    */
   include_usage?: boolean;
+
+  /**
+   * Only return results containing the exact phrase(s) in quotes in your query.
+   */
+  exact_match?: boolean;
 } & Record<string, unknown>;
 
 export type TavilySearchParamsWithSimpleImages = TavilySearchParamsBase & {
